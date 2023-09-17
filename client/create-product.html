@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Product</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mb-4">
+      <h1>Create a new Device</h1>
+      <form
+        method="post"
+        action="http://localhost:5555/devices/"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group mb-4">
+          <label for="name">Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            required
+          />
+        </div>
+        <div class="form-group mb-4">
+          <label for="description">Description:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="description"
+            name="description"
+            required
+          />
+        </div>
+        <div class="form-group mb-4">
+          <label for="price">Price:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="price"
+            name="price"
+            required
+          />
+        </div>
+        <div class="form-group mb-4">
+          <label for="Image">Image:</label>
+          <input
+            type="file"
+            class="form-control-file"
+            id="image"
+            name="image"
+            required
+          />
+          <img
+            id="imagePreview"
+            src=""
+            style="max-width: 200px; margin: 10px; display: none"
+            alt="Image Preview"
+          />
+        </div>
+        <div class="form-group mb-4">
+          <label for="brand">Brand:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="brand"
+            name="brand"
+            required
+          />
+        </div>
+        <div class="form-group mb-4">
+          <label for="type">Type:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="type"
+            name="type"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+    <script>
+      const form = document.querySelector("form");
+
+      const deviceId = window.location.search.split('/')[1];
+        try{
+            const response = await fetch(``)
+        } catch (e){
+            console.log(e)
+        }
+
+
+      alert(deviceId)
+​
+      const fileInput = document.getElementById("image");
+​
+      fileInput.onchange = () => {
+        const selectedFile = fileInput.files[0];
+​
+        const imagePreview = document.getElementById("imagePreview");
+​
+        if (selectedFile) {
+          const reader = new FileReader();
+​
+          reader.onload = (e) => {
+            imagePreview.src = e.target.result;
+            imagePreview.style.display = "block";
+          };
+​
+          reader.readAsDataURL(selectedFile);
+        } else {
+          imagePreview.src = "";
+          imagePreview.style.display = "none";
+        }
+      };
+​
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const formData = new FormData(form);
+​
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: formData,
+          });
+​
+          const data = await response.json();
+          console.log(data);
+​
+          if (response.ok) {
+            alert("Device created successfully!");
+            form.reset();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    </script>
+  </body>
+</html>
